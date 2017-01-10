@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>deploy a day - something blue. something new.</title>
+</head>
+<body>
+<!-- <h1>hello world</h1> -->
+<div id="circle"></div>
+<button id="restart">restart</button>
+<button id="play">play</button>
+<button id="pause">pause</button>
+<p>
+	Will change this to html canvas instead of div.
+</p>
+</body>
+<script type="text/javascript">
+	//mini lib
+	// select a list of matching elements, context is optional
+	function $(selector, context) {
+		var match = (context || document).querySelectorAll(selector);
+		if (match.length == 1) {
+			return match[0];
+		} else {
+			return match;
+		}
+	}//snagged from plainjs.com
+
+	//globals
+	var loopID;
+	var circle;
+	var xInitial = 50, xVelocity = 0.2, xAcceleration = 0;
+	var yInitial = 50, yVelocity = 0.2, yAcceleration = 0;
+	var yPos;
+	var t = 0;
+
+	function xPos(t) {
+		var Pos;
+		//simple decoupled axis Position as a function of time
+		Pos =  t*xVelocity + (t^2)*xAcceleration; 
+		//spiraled parametric path
+		Pos = xInitial + Pos*Math.cos(t);
+		return Pos;
+	}
+	function yPos(t) {
+		var Pos;
+		//simple decoupled axis Position as a function of time
+		Pos = t*yVelocity + (t^2)*yAcceleration; 
+		//spiraled parametric path
+		Pos = yInitial + Pos*Math.sin(t);
+		return Pos;
+	}
+
+	//setup
+	function setup() {
+		circle = $("#circle");
+		circle.style.height = "10px";
+		circle.style.width = "10px";
+		circle.style.borderRadius = "50%";
+		circle.style.position = "absolute";
+		circle.style.backgroundColor = "blue";
+		t = 1;
+	}
+	
+	//loop
+	function loop(){
+		t += 1;
+		circle.style.bottom = xPos(t)+"%";
+		circle.style.left = yPos(t)+"%"; 
+		console.log("frame update");
+		console.log("x - pos: "+circle.style.left+
+					" y - pos: "+circle.style.bottom);
+	}
+
+	function start(){
+		if (loopID) {clearTimeout(loopID)};
+		setup();
+		loopID = window.setInterval(loop, 500);
+	}
+	function resume(){
+		loopID = window.setInterval(loop, 500);
+	}
+	function pause(){
+		clearTimeout(loopID);
+
+	}
+
+	var restartBtn = $("#restart");
+	restartBtn.onclick = start;
+	var playBtn = $("#play");
+	playBtn.onclick = resume;
+	var pauseBtn = $("#pause");
+	pauseBtn.onclick = pause;
+	start();
+</script>
+</html>
