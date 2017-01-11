@@ -13,12 +13,14 @@ python -m SimpleHTTPServer
 index:
 
 01082017 - webRTC attempt
-Notes: Need to simpler demo and build up. 
+Notes: Need to try a simpler demo and build up. 
 
 
 01092017 - Beginnings of a simple physics engine.
 Notes: incorporate HTML5 canvas tage and shapes but still use same position functions.
 
 
+01102017 - Incorporated HTML canvas
+Notes: work out boundary collision and work on architecture.
 
  
